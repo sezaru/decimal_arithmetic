@@ -45,7 +45,6 @@ defmodule DecimalArithmetic do
       iex> 1 + 3
       4
   """
-  @spec decimable + decimable :: Decimal.t
   def a + b do
     do_add(a, b)
   end
@@ -73,7 +72,6 @@ defmodule DecimalArithmetic do
       iex> 3.20 - 5.45
       -2.25
   """
-  @spec decimable - decimable :: Decimal.t
   def a - b do
     do_sub(a, b)
   end
@@ -98,7 +96,6 @@ defmodule DecimalArithmetic do
       iex> 7 * ~m(2.33)
       #Decimal<16.31>
   """
-  @spec decimable * decimable :: Decimal.t
   def a * b do
     do_mult(a, b)
   end
@@ -125,7 +122,6 @@ defmodule DecimalArithmetic do
       iex> 3 / 4
       0.75
   """
-  @spec decimable / decimable :: Decimal.t
   def a / b do
     do_div(a, b)
   end
@@ -154,7 +150,6 @@ defmodule DecimalArithmetic do
       iex> ~m(1.00001) == ~m(1.00002)
       false
   """
-  @spec decimable == decimable :: boolean
   def a == b do
     do_equal(a, b)
   end
@@ -181,7 +176,6 @@ defmodule DecimalArithmetic do
       iex> 1.00001 != ~m(1.00002)
       true
   """
-  @spec decimable != decimable :: boolean
   def a != b do
     !__MODULE__.==(a, b)
   end
@@ -197,7 +191,6 @@ defmodule DecimalArithmetic do
       iex> ~m(2.21) > ~m(2.20)
       true
   """
-  @spec decimable > decimable :: boolean
   def a > b do
     do_greater(a, b)
   end
@@ -226,7 +219,6 @@ defmodule DecimalArithmetic do
       iex> ~m(2.20) >= ~m(2.21)
       false
   """
-  @spec decimable >= decimable :: boolean
   def a >= b do
     __MODULE__.==(a, b) || __MODULE__.>(a, b)
   end
@@ -242,7 +234,6 @@ defmodule DecimalArithmetic do
       iex> ~m(2.21) < ~m(2.20)
       false
   """
-  @spec decimable < decimable :: boolean
   def a < b do
     do_less(a, b)
   end
@@ -271,7 +262,6 @@ defmodule DecimalArithmetic do
       iex> ~m(2.20) <= ~m(2.21)
       true
   """
-  @spec decimable <= decimable :: boolean
   def a <= b do
     __MODULE__.==(a, b) || __MODULE__.<(a, b)
   end
