@@ -2,14 +2,16 @@ defmodule DecimalArithmetic.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :decimal_arithmetic,
-     version: "0.1.3",
-     elixir: "~> 1.1",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package(),
-     description: "Extended arithmetic for Decimal library.",
-     deps: deps()]
+    [
+      app: :decimal_arithmetic,
+      version: "0.1.3",
+      elixir: "~> 1.1",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      description: "Extended arithmetic for Decimal library.",
+      deps: deps()
+    ]
   end
 
   def application do
@@ -24,9 +26,11 @@ defmodule DecimalArithmetic.Mixfile do
   end
 
   defp package do
-    [ contributors: ["Jacek Adamek"],
-      maintainers: ["Jacek Adamek"],
+    [
+      contributors: ["Jacek Adamek", "Eduardo Barreto Alexandre"],
+      maintainers: ["Eduardo Barreto Alexandre"],
       licenses: ["MIT"],
-      links: %{ "Github" => "https://github.com/jacek-adamek/decimal_arithmetic" } ]
+      links: %{"Github" => "https://github.com/sezaru/decimal_arithmetic"}
+    ]
   end
 end
