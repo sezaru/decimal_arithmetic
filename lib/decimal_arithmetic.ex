@@ -24,14 +24,11 @@ defmodule DecimalArithmetic do
 
   alias Decimal, as: D
 
-  @type decimable :: number | Decimal.t
-
   @doc false
   defmacro __using__(_opts) do
     quote do
-      import Kernel, except: [
-        +: 2, -: 2, *: 2, /: 2, ==: 2, !=: 2, <: 2, >: 2, <=: 2, >=: 2
-      ]
+      import Kernel, except: [+: 2, -: 2, *: 2, /: 2, ==: 2, !=: 2, <: 2, >: 2, <=: 2, >=: 2]
+
       import unquote(__MODULE__)
     end
   end
@@ -45,23 +42,12 @@ defmodule DecimalArithmetic do
       iex> 1 + 3
       4
   """
-  def a + b do
-    do_add(a, b)
-  end
+  def a + b, do: do_add(a, b)
 
-  defp do_add(%Decimal{} = a, %Decimal{} = b) do
-    D.add a, b
-  end
-  defp do_add(%Decimal{} = a, b) when is_number(b) do
-    D.add a, to_decimal(b)
-  end
-  defp do_add(a, %Decimal{} = b) when is_number(a) do
-    D.add to_decimal(a), b
-  end
-  defp do_add(a, b) do
-    Kernel.+(a, b)
-  end
-
+  defp do_add(%D{} = a, %D{} = b), do: D.add(a, b)
+  defp do_add(%D{} = a, b) when is_number(b), do: D.add(a, to_decimal(b))
+  defp do_add(a, %D{} = b) when is_number(a), do: D.add(to_decimal(a), b)
+  defp do_add(a, b), do: Kernel.+(a, b)
 
   @doc """
   Subtracts two decimables or delegates subtraction to Kernel module.
@@ -72,22 +58,12 @@ defmodule DecimalArithmetic do
       iex> 3.20 - 5.45
       -2.25
   """
-  def a - b do
-    do_sub(a, b)
-  end
+  def a - b, do: do_sub(a, b)
 
-  defp do_sub(%Decimal{} = a, %Decimal{} = b) do
-    D.sub a, b
-  end
-  defp do_sub(%Decimal{} = a, b) when is_number(b) do
-    D.sub a, to_decimal(b)
-  end
-  defp do_sub(a, %Decimal{} = b) when is_number(a) do
-    D.sub to_decimal(a), b
-  end
-  defp do_sub(a, b) do
-    Kernel.-(a, b)
-  end
+  defp do_sub(%D{} = a, %D{} = b), do: D.sub(a, b)
+  defp do_sub(%D{} = a, b) when is_number(b), do: D.sub(a, to_decimal(b))
+  defp do_sub(a, %D{} = b) when is_number(a), do: D.sub(to_decimal(a), b)
+  defp do_sub(a, b), do: Kernel.-(a, b)
 
   @doc """
   Multiplies decimables or delegates multiplication to Kernel module.
@@ -96,22 +72,12 @@ defmodule DecimalArithmetic do
       iex> 7 * ~m(2.33)
       #Decimal<16.31>
   """
-  def a * b do
-    do_mult(a, b)
-  end
+  def a * b, do: do_mult(a, b)
 
-  defp do_mult(%Decimal{} = a, %Decimal{} = b) do
-    D.mult a, b
-  end
-  defp do_mult(%Decimal{} = a, b) when is_number(b) do
-    D.mult a, to_decimal(b)
-  end
-  defp do_mult(a, %Decimal{} = b) when is_number(a) do
-    D.mult to_decimal(a), b
-  end
-  defp do_mult(a, b) do
-    Kernel.*(a, b)
-  end
+  defp do_mult(%D{} = a, %D{} = b), do: D.mult(a, b)
+  defp do_mult(%D{} = a, b) when is_number(b), do: D.mult(a, to_decimal(b))
+  defp do_mult(a, %D{} = b) when is_number(a), do: D.mult(to_decimal(a), b)
+  defp do_mult(a, b), do: Kernel.*(a, b)
 
   @doc """
   Divides two decimables or delegates division to Kernel module.
@@ -122,22 +88,12 @@ defmodule DecimalArithmetic do
       iex> 3 / 4
       0.75
   """
-  def a / b do
-    do_div(a, b)
-  end
+  def a / b, do: do_div(a, b)
 
-  defp do_div(%Decimal{} = a, %Decimal{} = b) do
-    D.div a, b
-  end
-  defp do_div(%Decimal{} = a, b) when is_number(b) do
-    D.div a, to_decimal(b)
-  end
-  defp do_div(a, %Decimal{} = b) when is_number(a) do
-    D.div to_decimal(a), b
-  end
-  defp do_div(a, b) do
-    Kernel./(a, b)
-  end
+  defp do_div(%D{} = a, %D{} = b), do: D.div(a, b)
+  defp do_div(%D{} = a, b) when is_number(b), do: D.div(a, to_decimal(b))
+  defp do_div(a, %D{} = b) when is_number(a), do: D.div(to_decimal(a), b)
+  defp do_div(a, b), do: Kernel./(a, b)
 
   @doc """
   Returns true if two decimable are equal or delegates equality to Kernel module.
@@ -150,22 +106,12 @@ defmodule DecimalArithmetic do
       iex> ~m(1.00001) == ~m(1.00002)
       false
   """
-  def a == b do
-    do_equal(a, b)
-  end
+  def a == b, do: do_equal(a, b)
 
-  defp do_equal(%Decimal{} = a, %Decimal{} = b) do
-    D.equal? a, b
-  end
-  defp do_equal(%Decimal{} = a, b) when is_number(b) do
-    D.equal? a, to_decimal(b)
-  end
-  defp do_equal(a, %Decimal{} = b) when is_number(a) do
-    D.equal? to_decimal(a), b
-  end
-  defp do_equal(a, b) do
-    Kernel.==(a, b)
-  end
+  defp do_equal(%D{} = a, %D{} = b), do: D.equal?(a, b)
+  defp do_equal(%D{} = a, b) when is_number(b), do: D.equal?(a, to_decimal(b))
+  defp do_equal(a, %D{} = b) when is_number(a), do: D.equal?(to_decimal(a), b)
+  defp do_equal(a, b), do: Kernel.==(a, b)
 
   @doc """
   Returns true if two decimable are not equal.
@@ -176,9 +122,7 @@ defmodule DecimalArithmetic do
       iex> 1.00001 != ~m(1.00002)
       true
   """
-  def a != b do
-    !__MODULE__.==(a, b)
-  end
+  def a != b, do: !__MODULE__.==(a, b)
 
   @doc """
   Compares two decimables or delegates comparison to Kernel module.
@@ -191,22 +135,17 @@ defmodule DecimalArithmetic do
       iex> ~m(2.21) > ~m(2.20)
       true
   """
-  def a > b do
-    do_greater(a, b)
-  end
+  def a > b, do: do_greater(a, b)
 
-  defp do_greater(%Decimal{} = a, %Decimal{} = b) do
-    Kernel.==(D.compare(a, b), to_decimal(1))
-  end
-  defp do_greater(%Decimal{} = a, b) when is_number(b) do
-    Kernel.==(D.compare(a, to_decimal(b)), to_decimal(1))
-  end
-  defp do_greater(a, %Decimal{} = b) when is_number(a) do
-    Kernel.==(D.compare(to_decimal(a), b), to_decimal(1))
-  end
-  defp do_greater(a, b) do
-    Kernel.>(a, b)
-  end
+  defp do_greater(%D{} = a, %D{} = b), do: D.compare(a, b) |> Kernel.==(:gt)
+
+  defp do_greater(%D{} = a, b) when is_number(b),
+    do: D.compare(a, to_decimal(b)) |> Kernel.==(:gt)
+
+  defp do_greater(a, %D{} = b) when is_number(a),
+    do: D.compare(to_decimal(a), b) |> Kernel.==(:gt)
+
+  defp do_greater(a, b), do: Kernel.>(a, b)
 
   @doc """
   Compares two decimables.
@@ -219,9 +158,7 @@ defmodule DecimalArithmetic do
       iex> ~m(2.20) >= ~m(2.21)
       false
   """
-  def a >= b do
-    __MODULE__.==(a, b) || __MODULE__.>(a, b)
-  end
+  def a >= b, do: __MODULE__.==(a, b) || __MODULE__.>(a, b)
 
   @doc """
   Compares two decimables or delegates comparison to Kernel module.
@@ -234,22 +171,12 @@ defmodule DecimalArithmetic do
       iex> ~m(2.21) < ~m(2.20)
       false
   """
-  def a < b do
-    do_less(a, b)
-  end
+  def a < b, do: do_less(a, b)
 
-  defp do_less(%Decimal{} = a, %Decimal{} = b) do
-    Kernel.==(D.compare(a, b), to_decimal(-1))
-  end
-  defp do_less(%Decimal{} = a, b) when is_number(b) do
-    Kernel.==(D.compare(a, to_decimal(b)), to_decimal(-1))
-  end
-  defp do_less(a, %Decimal{} = b) when is_number(a) do
-    Kernel.==(D.compare(to_decimal(a), b), to_decimal(-1))
-  end
-  defp do_less(a, b) do
-    Kernel.<(a, b)
-  end
+  defp do_less(%D{} = a, %D{} = b), do: D.compare(a, b) |> Kernel.==(:lt)
+  defp do_less(%D{} = a, b) when is_number(b), do: D.compare(a, to_decimal(b)) |> Kernel.==(:lt)
+  defp do_less(a, %D{} = b) when is_number(a), do: D.compare(to_decimal(a), b) |> Kernel.==(:lt)
+  defp do_less(a, b), do: Kernel.<(a, b)
 
   @doc """
   Compares two decimables.
@@ -262,9 +189,7 @@ defmodule DecimalArithmetic do
       iex> ~m(2.20) <= ~m(2.21)
       true
   """
-  def a <= b do
-    __MODULE__.==(a, b) || __MODULE__.<(a, b)
-  end
+  def a <= b, do: __MODULE__.==(a, b) || __MODULE__.<(a, b)
 
   @doc """
   Casts string literal to Decimal.t.
@@ -277,14 +202,8 @@ defmodule DecimalArithmetic do
       iex> ~m(1)
       #Decimal<1>
   """
-  def sigil_m(string, []) do
-    D.new(string)
-  end
+  def sigil_m(string, []), do: D.new(string)
 
-  defp to_decimal(a) when is_integer(a) do
-    D.new(a)
-  end
-  defp to_decimal(a) when is_float(a) do
-    D.from_float(a)
-  end
+  defp to_decimal(a) when is_integer(a), do: D.new(a)
+  defp to_decimal(a) when is_float(a), do: D.from_float(a)
 end
