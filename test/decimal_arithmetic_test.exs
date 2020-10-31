@@ -1,7 +1,10 @@
 defmodule DecimalArithmeticTest do
-  use ExUnit.Case
-  use DecimalArithmetic
   alias Decimal, as: D
+
+  use ExUnit.Case
+
+  use DecimalArithmetic
+
   doctest DecimalArithmetic
 
   test "adding" do
